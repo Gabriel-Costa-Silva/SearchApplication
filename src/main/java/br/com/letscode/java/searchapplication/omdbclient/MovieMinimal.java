@@ -2,25 +2,24 @@ package br.com.letscode.java.searchapplication.omdbclient;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.Reader;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
-@SuppressWarnings("rawtypes")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -37,6 +36,8 @@ public class MovieMinimal {
     private Integer year;
 
 
+
+
     public void setYear(String year) {
         this.year = convertYear(year);
     }
@@ -50,16 +51,11 @@ public class MovieMinimal {
                 .findFirst()
                 .orElseThrow();
     }
-    public List readCSV( )throws IOException {
-        Reader leitor = Files.newBufferedReader(Paths.get("cache.csv"));
-        CsvToBean csvToBean =  new CsvToBeanBuilder(leitor)
-                .withType(MovieMinimal.class)
-                .build();
-        return csvToBean.parse();
+    private MovieMinimal cadastraFilme(String linha) {
+        String[] filme = linha.split(",");
+        return new MovieMinimal(
+                filme[0],
+                filme[1],
+                Integer.parseInt(filme[2]));
     }
-
-
-
-    }
-
 }

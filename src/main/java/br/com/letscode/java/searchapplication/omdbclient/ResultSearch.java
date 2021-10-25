@@ -25,4 +25,5 @@ public class ResultSearch {
     public void setTotal(String total) {
         this.total = Integer.parseInt(total);
     }
+
 }
